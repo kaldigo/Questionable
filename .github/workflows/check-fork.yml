@@ -1,0 +1,19 @@
+# Authored with LLM assistance, changes must be reviewed and owned by a human.
+# Initial version reviewed and owned by @kaldigo
+name: Check Reborn fork
+on:
+  pull_request:
+    branches: [new-main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    if: github.repository == 'kaldigo/Questionable'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: ./.github/actions/build

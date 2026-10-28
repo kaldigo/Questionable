@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using Dalamud.Plugin.Ipc;
 using Questionable.Model.Questing;
+using Questionable.External.Reborn;
 using static Questionable.External.IPCUtils;
 namespace Questionable.External;
 
@@ -10,11 +11,12 @@ internal sealed class BossModIpc
     IDalamudPluginInterface pluginInterface,
     Configuration configuration,
     TerritoryData territoryData,
-    ICommandManager commandManager) : Ipc
+    ICommandManager commandManager,
+    RebornBossModBackend reborn) : Ipc
 {
-    public override string InternalName => PluginName;
-    public override Version? GetVersion() => IPCSubscriber.Version(InternalName);
-    public override bool IsReady() => IpcInvoke.SafeFunc(() =>
+    public override string InternalName => reborn.IsLoaded ? "BossModReborn" : PluginName;
+    public override Version? GetVersion() => reborn.IsLoaded ? reborn.Version : IPCSubscriber.Version(InternalName);
+    public override bool IsReady() => reborn.IsLoaded ? reborn.IsReady : IpcInvoke.SafeFunc(() =>
         {
             var _ = _getActivePreset.InvokeFunc();
             return GetVersion() != null;
@@ -46,19 +48,18 @@ internal sealed class BossModIpc
 
     private bool _soloDutyZoneConfigured;
     private bool _enableQuestBattlesOverridden;
-    private bool _bossmodRebornDetected;
-
-    public bool IsSupported() => IpcInvoke.SafeFunc(() => _getPreset.HasFunction, fallback: false);
-    public bool BossModRebornDetected()
-    {
-        if (EzThrottler.Throttle("BossModRebornDetected", miliseconds: 1000))
-            _bossmodRebornDetected = IPCSubscriber.IsInstalled("BossModReborn");
-        return _bossmodRebornDetected;
-    }
+    public bool IsSupported() => reborn.IsLoaded ? reborn.IsReady : IpcInvoke.SafeFunc(() => _getPreset.HasFunction, fallback: false);
+    public bool HasBossModConflict() => reborn.HasConflict;
+    public bool CanClearObstacleMaps => !reborn.IsLoaded && commandManager.Commands.ContainsKey("/vbm");
 
     public PresetDefinition AddPreset(EPreset preset) => AddPreset(PresetDefinitions[preset]);
     public PresetDefinition AddPreset(PresetDefinition definition, bool bulk = false)
     {
+        if (reborn.IsLoaded)
+        {
+            reborn.EnsurePreset(definition);
+            return definition;
+        }
         if (!bulk)
             ClearObstacleMaps();
         if (_getPreset.InvokeFunc(definition.Name) == null)
@@ -68,6 +69,12 @@ internal sealed class BossModIpc
 
     public void AddAllPresets(bool delete = false)
     {
+        if (reborn.IsLoaded)
+        {
+            foreach (PresetDefinition definition in PresetDefinitions.Values)
+                reborn.EnsurePreset(definition);
+            return;
+        }
         ClearObstacleMaps();
         foreach (PresetDefinition definition in PresetDefinitions.Values)
         {
@@ -79,10 +86,16 @@ internal sealed class BossModIpc
 
     public bool DeletePreset(EPreset preset) => DeletePreset(PresetDefinitions[preset]);
 
-    public bool DeletePreset(PresetDefinition definition) => _deletePreset.InvokeFunc(definition.Name);
+    public bool DeletePreset(PresetDefinition definition) => reborn.IsLoaded
+        ? reborn.DeletePreset(definition) : _deletePreset.InvokeFunc(definition.Name);
 
     public void SetActivePreset(EPreset preset)
     {
+        if (reborn.IsLoaded)
+        {
+            reborn.Activate(PresetDefinitions[preset], solo: false, restoreMovement: false);
+            return;
+        }
         PresetDefinition definition = AddPreset(preset);
         commandManager.ProcessCommand("/vbmai off");
         _setPreset.InvokeFunc(definition.Name);
@@ -90,6 +103,11 @@ internal sealed class BossModIpc
 
     public void SetPresetForSoloDuty(EPreset preset)
     {
+        if (reborn.IsLoaded)
+        {
+            reborn.Activate(PresetDefinitions[preset], solo: true, configuration.Advanced.BMRestoreMovement);
+            return;
+        }
         UnsetBasicSettings();
         ConfigureZoneForQuestBattle();
         SetActivePreset(preset);
@@ -98,6 +116,9 @@ internal sealed class BossModIpc
     // i guess we're doing plugin subtweeting now
     public void UnsetBasicSettings()
     {
+        // Reborn owns and restores its temporary setting changes as part of session cleanup.
+        if (reborn.IsLoaded)
+            return;
         if (configuration.Advanced.BMRestoreMovement)
             _configuration.InvokeFunc(["ActionTweaksConfig", "PreventMovingWhileCasting", "false"], false);
     }
@@ -109,6 +130,11 @@ internal sealed class BossModIpc
 
     public void ClearActivePresets()
     {
+        if (reborn.IsLoaded)
+        {
+            reborn.ClearActivePresets();
+            return;
+        }
         string? activePreset = _getActivePreset.InvokeFunc();
         if (activePreset == null)
             return;
@@ -125,18 +151,32 @@ internal sealed class BossModIpc
 
     public void DisableSoloDutyPreset()
     {
+        if (reborn.IsLoaded || reborn.HasSession)
+        {
+            reborn.Cleanup();
+            return;
+        }
         ReleaseSoloDutyZone();
         ClearActivePresets();
     }
 
     public void Cleanup()
     {
+        if (reborn.IsLoaded || reborn.HasSession)
+        {
+            reborn.Cleanup();
+            return;
+        }
         commandManager.ProcessCommand("/vbmai off");
         ReleaseSoloDutyZone();
         ClearActivePresets();
     }
 
-    public void ClearObstacleMaps() => commandManager.ProcessCommand("/vbm clear-maps");
+    public void ClearObstacleMaps()
+    {
+        if (CanClearObstacleMaps)
+            commandManager.ProcessCommand("/vbm clear-maps");
+    }
 
     private void ConfigureZoneForQuestBattle()
     {

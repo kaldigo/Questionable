@@ -1,5 +1,14 @@
 # Agent Instructions
 
+## Maintained fork scope
+
+This checkout is kaldigo/Questionable. Preserve upstream identity, quest/gathering route updates,
+and the standard VBM integration. Keep Reborn-specific implementation in External/Reborn and
+use the existing facade. Preserve the checked upstream-update/release workflows. Never submit
+fork-specific generated changes to PunishXIV automatically. The current user's explicit request
+to implement and publish this fork authorizes the necessary local edits, checks and fork publication;
+no upstream maintainer review is requested by that work. Report native acceptance separately.
+
 This file gives guidance to AI/LLM coding agents (Claude Code, Copilot, Cursor, Codex, pi, etc.) working in the Questionable repository. It adapts the ["Artificial Intelligence"/Large Language Model (AI/LLM) usage](CONTRIBUTING.md#artificial-intelligencelarge-language-model-aillm-usage) section of `CONTRIBUTING.md` into rules for the agent and the human driving it.
 
 Read `CONTRIBUTING.md` in full before contributing. Nothing in this file overrides it — if there is a conflict, `CONTRIBUTING.md` wins.

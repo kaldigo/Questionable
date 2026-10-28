@@ -21,7 +21,7 @@ permissions:
 jobs:
   publish-paths:
     runs-on: ubuntu-latest
-    if: contains(fromJson(vars.RELEASE_USERNAMES), github.actor)
+    if: github.repository == 'PunishXIV/Questionable' && contains(fromJson(vars.RELEASE_USERNAMES), github.actor)
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

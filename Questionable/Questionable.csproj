@@ -16,10 +16,6 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <SixLaborsLicenseKey>$(SIXLABORS_LICENSE_KEY)</SixLaborsLicenseKey>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="Dalamud.Extensions.MicrosoftLogging" Version="4.0.1" />
         <PackageReference Include="ECommons" Version="3.2.1.22" />
@@ -33,7 +29,6 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
         <PackageReference Include="NotificationMasterAPI" Version="1.0.0.4" />
         <PackageReference Include="PunishLib" Version="2.0.0.1" />
-        <PackageReference Include="SixLabors.ImageSharp" Version="4.1.2" />
         <PackageReference Include="System.Text.Json" Version="10.0.12" />
         <PackageReference Include="WrathCombo.API" Version="0.5.8" />
     </ItemGroup>

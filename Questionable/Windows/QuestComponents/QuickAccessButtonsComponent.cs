@@ -112,10 +112,10 @@ internal sealed class QuickAccessButtonsComponent
 
     internal void DrawClearVBMMapsButton(bool showLabel = false)
     {
-        bool isNavmeshAvailable = commandManager.Commands.ContainsKey("/vbm");
+        bool isNavmeshAvailable = bossModIpc.CanClearObstacleMaps;
         string tooltip = isNavmeshAvailable
             ? _L("Clear BossMod obstacle maps to fix pathfinding issues. Hold CTRL to enable this button")
-            : _L("VBM is not available. Please install it first.");
+            : _L("Map clearing requires standard Boss Mod. Reborn does not expose the equivalent operation.");
         if (QstWidgets.RailButton(FontAwesomeIcon.Directions, _L("Clear VBM obstacle maps"), tooltip,
                 enabled: isNavmeshAvailable && ImGui.IsKeyDown(ImGuiKey.ModCtrl),
                 showLabel: showLabel))

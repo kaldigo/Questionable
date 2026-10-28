@@ -195,8 +195,8 @@ internal sealed class QuestWindow : LWindow, IPersistableWindowConfig
             }
 #endif
             string notice = "";
-            if (_bossModIpc.BossModRebornDetected())
-                notice = _L("Questionable is not compatible with BossMod Reborn!");
+            if (_bossModIpc.HasBossModConflict())
+                notice = _L("Both BossMod variants are loaded. Disable one before using combat automation.");
             if (notice.Length != 0)
             {
                 ImGui.TextColored(QstTheme.Danger, _L("Notice"));

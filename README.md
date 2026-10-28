@@ -1,3 +1,7 @@
+This is the maintained **kaldigo fork with isolated BossMod Reborn support**.
+See [FORK.md](FORK.md) for installation, upstream updates, limitations and validation.
+Upstream quest and gathering route downloads remain enabled and unchanged.
+
 <section id="top">
     <p style="text-align:center;" align="center">
         <img align="center" src="https://github.com/qstxiv/icons/raw/main/Questionable.png" width="250" />

@@ -25,7 +25,7 @@ permissions:
 jobs:
   detect-version-change:
     runs-on: ubuntu-latest
-    if: contains(fromJson(vars.RELEASE_USERNAMES), github.actor)
+    if: github.repository == 'PunishXIV/Questionable' && contains(fromJson(vars.RELEASE_USERNAMES), github.actor)
     outputs:
       version: ${{ steps.get-version.outputs.version }}
       should-release: ${{ steps.check-release.outputs.should-release }}

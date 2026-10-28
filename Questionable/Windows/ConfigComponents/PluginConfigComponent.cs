@@ -318,6 +318,11 @@ internal sealed class PluginConfigComponent
         ImGui.Spacing();
 
         PluginInfo plugin = CombatPlugins[combatModule];
+        if (combatModule == ECombatModule.BossMod && IPCUtils.IPCSubscriber.IsInstalled("BossModReborn"))
+            plugin = new("BossMod Reborn", "BossModReborn",
+                "Combat and solo-duty automation through this fork's Reborn adapter. Load only one BossMod variant.",
+                new("https://github.com/FFXIV-CombatReborn/BossmodReborn"),
+                new("https://raw.githubusercontent.com/FFXIV-CombatReborn/CombatRebornRepo/main/pluginmaster.json"), "/bmr");
         using (ImRaii.PushId("plugin_" + plugin.DisplayName))
         {
             IExposedPlugin? installedPlugin = FindInstalledPlugin(plugin, requireLoaded: false);

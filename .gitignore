@@ -13,3 +13,8 @@ TestResults/
 *.zip
 .dalamud
 sixlabors.lic
+# Fork build and release outputs
+artifacts/
+Questionable/dist/
+__pycache__/
+*.pyc

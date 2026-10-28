@@ -1,5 +1,4 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
-using Dalamud.Plugin.Ipc.Exceptions;
 using Questionable.Model.Common;
 namespace Questionable.Controller.CombatModules;
 
@@ -37,7 +36,7 @@ internal sealed class BossModModule
             bossModIpc.SetActivePreset(BossModIpc.EPreset.Overworld);
             return true;
         }
-        catch (IpcError e)
+        catch (Exception e)
         {
             logger.LogWarning(e, "Could not start combat");
             return false;

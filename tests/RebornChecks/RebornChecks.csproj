@@ -1,0 +1,14 @@
+<!-- Authored with LLM assistance, changes must be reviewed and owned by a human.
+Initial version reviewed and owned by @kaldigo -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Questionable/External/Reborn/RebornSession.cs" Link="RebornSession.cs" />
+    <Content Include="../../Questionable/Controller/CombatModules/BossModPreset_*.json" Link="Presets/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

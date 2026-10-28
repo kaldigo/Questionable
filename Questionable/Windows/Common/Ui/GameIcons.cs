@@ -2,9 +2,6 @@ using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Textures.TextureWraps;
 using Lumina.Data.Files;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
 
 namespace Questionable.Windows.Common.Ui;
 
@@ -66,15 +63,8 @@ internal sealed class GameIcons(
 
     private IDalamudTextureWrap Resample(TexFile file, uint iconId, int size)
     {
-        // these are bgra, not rgba
-        using Image<Bgra32> image =
-            Image.LoadPixelData<Bgra32>(file.ImageData, file.Header.Width, file.Header.Height);
-        image.Mutate(x => x.Resize(size, size, KnownResamplers.Lanczos3));
-
-        byte[] bitmap = new byte[size * size * 4];
-        image.CopyPixelDataTo(bitmap);
-
-        return textureProvider.CreateFromRaw(RawImageSpecification.Bgra32(size, size), bitmap,
+        // Let ImGui scale the native texture at draw time; no separately licensed image dependency.
+        return textureProvider.CreateFromRaw(RawImageSpecification.Bgra32(file.Header.Width, file.Header.Height), file.ImageData,
             $"Questionable icon {iconId}@{size}");
     }
 

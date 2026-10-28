@@ -86,15 +86,6 @@
           "ECommons": "3.2.0.11"
         }
       },
-      "SixLabors.ImageSharp": {
-        "type": "Direct",
-        "requested": "[4.1.2, )",
-        "resolved": "4.1.2",
-        "contentHash": "AQ0oouhH/6qmXJC70/k50iVt7SiZRjCgd4tXXiC5ZrB5CvyBwA81HTqb5twcXz8CvTAFxUNV0TAcL83OhyRA1g==",
-        "dependencies": {
-          "System.IO.Hashing": "8.0.0"
-        }
-      },
       "System.Text.Json": {
         "type": "Direct",
         "requested": "[10.0.12, )",
@@ -163,15 +154,10 @@
         "resolved": "8.0.0",
         "contentHash": "bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g=="
       },
-      "System.IO.Hashing": {
-        "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "ne1843evDugl0md7Fjzy6QjJrzsjh46ZKbhf8GwBXb5f/gw97J4bxMs0NQKifDuThh/f0bZ0e62NPl1jzTuRqA=="
-      },
       "gatheringpaths": {
         "type": "Project",
         "dependencies": {
-          "Questionable.Model": "[15.756.3.40, )"
+          "Questionable.Model": "[15.756.3.56, )"
         }
       },
       "questionable.model": {
@@ -180,7 +166,7 @@
       "questpaths": {
         "type": "Project",
         "dependencies": {
-          "Questionable.Model": "[15.756.3.40, )"
+          "Questionable.Model": "[15.756.3.56, )"
         }
       }
     }
