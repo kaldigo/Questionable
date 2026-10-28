@@ -47,6 +47,11 @@ The fork does not require upstream publisher credentials or an ImageSharp licenc
 Game icons use native BGRA textures scaled by ImGui instead of ImageSharp CPU resampling.
 This may slightly change small-icon sharpness. Upstream attribution and licence remain included.
 
+The fork icon preserves the upstream Questionable arrows and location pin, recoloured through
+image generation to the same teal-to-magenta palette as the maintained Wrath icon, without the
+corner insignia. `assets/icon-source.png` retains the generated original and `assets/icon.png`
+is the 512-pixel plugin export. The upstream reference is https://puni.sh/api/plugins/icon/94.
+
 ## Validation
 
 Run `tools/build.ps1` with Dalamud API 15 references installed, or set `DALAMUD_HOME`.

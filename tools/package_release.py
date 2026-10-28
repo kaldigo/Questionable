@@ -14,6 +14,7 @@ def package(tag):
         raise ValueError('Built identity/version/API differs from release plan')
     url = f'https://github.com/kaldigo/Questionable/releases/download/{tag}/Questionable.zip'
     m.update(RepoUrl='https://github.com/kaldigo/Questionable', AcceptsFeedback=False,
+             IconUrl='https://raw.githubusercontent.com/kaldigo/Questionable/new-main/assets/icon.png',
              Description=m['Description'] + '\n\nMaintained fork with isolated BossMod Reborn support. Report fork issues to kaldigo/Questionable. Solo-duty native acceptance remains pending.',
              DownloadLinkInstall=url, DownloadLinkUpdate=url, DownloadLinkTesting=url,
              Changelog='Isolated Reborn adapter; upstream quest updates preserved. Development preview: in-game acceptance pending.')
@@ -32,6 +33,7 @@ def package(tag):
                 z.write(f, f.relative_to(build).as_posix())
         z.writestr('Questionable.json', json.dumps(m, indent=2)+'\n')
         z.write(root/'LICENSE', 'LICENSE')
+        z.write(root/'assets/icon.png', 'images/icon.png')
         z.write(root/'FORK.md', 'FORK.md')
     feed = json.dumps([m], indent=2)+'\n'
     (root/'pluginmaster.json').write_text(feed, encoding='utf-8')

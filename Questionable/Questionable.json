@@ -8,6 +8,6 @@
     "msq"
   ],
   "RepoUrl": "https://github.com/PunishXIV/Questionable",
-  "IconUrl": "https://puni.sh/api/plugins/icon/94",
+  "IconUrl": "https://raw.githubusercontent.com/kaldigo/Questionable/new-main/assets/icon.png",
   "DalamudApiLevel": 15
 }
