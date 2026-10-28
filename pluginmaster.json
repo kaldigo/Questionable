@@ -3,7 +3,7 @@
     "Author": "the Puni.sh Quest Squad",
     "Name": "Questionable",
     "InternalName": "Questionable",
-    "AssemblyVersion": "15.756.3.5602",
+    "AssemblyVersion": "15.756.3.5603",
     "Description": "A tiny little quest helper plugin, which does quests for you automatically where possible. Uses navmesh to automatically walk to all quest waypoints, and tries to automatically complete all steps along the way (excluding dungeons, single player duties and combat).\n\nNot all quests are supported, check the discord or git repository for an up-to-date list.\n\nRequired Plugins: vnavmesh, TextAdvance, Lifestream\n\nMaintained fork with isolated BossMod Reborn support. Report fork issues to kaldigo/Questionable. Solo-duty native acceptance remains pending.",
     "ApplicableVersion": "any",
     "RepoUrl": "https://github.com/kaldigo/Questionable",
@@ -16,12 +16,12 @@
     "LoadSync": false,
     "CanUnloadAsync": false,
     "LoadPriority": 0,
-    "IconUrl": "https://puni.sh/api/plugins/icon/94",
+    "IconUrl": "https://raw.githubusercontent.com/kaldigo/Questionable/new-main/assets/icon.png",
     "Punchline": "A tiny quest helper plugin.",
     "AcceptsFeedback": false,
-    "DownloadLinkInstall": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5602/Questionable.zip",
-    "DownloadLinkUpdate": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5602/Questionable.zip",
-    "DownloadLinkTesting": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5602/Questionable.zip",
+    "DownloadLinkInstall": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5603/Questionable.zip",
+    "DownloadLinkUpdate": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5603/Questionable.zip",
+    "DownloadLinkTesting": "https://github.com/kaldigo/Questionable/releases/download/v15.756.3.5603/Questionable.zip",
     "Changelog": "Isolated Reborn adapter; upstream quest updates preserved. Development preview: in-game acceptance pending."
   }
 ]
