@@ -74,4 +74,7 @@ foreach (string file in Directory.GetFiles(Path.Combine(AppContext.BaseDirectory
     Reject(() => RebornSession.ValidatePreset(prepared, missingSetting.ToJsonString()), "An import that silently drops a track/option must fail.");
     Reject(() => RebornSession.ValidatePreset(prepared, null), "Missing preset readback must fail.");
 }
+Check(RebornSession.IsIntegrationPreset("Questionable [Reborn]"), "Integration preset remains recognisable after a reload.");
+Check(!RebornSession.IsIntegrationPreset("User raid preset"), "A user preset must not be cleared by AI shutdown.");
+Check(!RebornSession.IsIntegrationPreset(null), "An inactive preset grants no shutdown ownership.");
 Console.WriteLine($"Passed {checks} Reborn lifecycle and preset contract checks.");

@@ -85,7 +85,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ steps.plan.outputs.tag }}
         run: |
-          python tools/package_release.py --tag $env:RELEASE_TAG 
+          python tools/package_release.py --tag $env:RELEASE_TAG
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
           python tools/check_package.py --tag $env:RELEASE_TAG
           if ($LASTEXITCODE) { exit $LASTEXITCODE }

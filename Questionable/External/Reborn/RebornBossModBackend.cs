@@ -108,8 +108,7 @@ internal sealed class RebornBossModBackend : IDisposable
         RequireReady();
         string? active = _active.InvokeFunc();
         // Recognise integration presets after a plugin reload, without clearing a user's preset.
-        if (active is "Questionable [Reborn]" or "Questionable - Quest Battles [Reborn]"
-            or "Questionable - Normal Movement [Reborn]" || (active != null && _ownedPresets.Contains(active)))
+        if (OwnsPreset(active))
         {
             if (!_clear.InvokeFunc() || _active.InvokeFunc() == active)
                 throw new InvalidOperationException("Reborn did not clear the Questionable preset.");
@@ -126,7 +125,9 @@ internal sealed class RebornBossModBackend : IDisposable
         }
         List<Exception> failures = [];
         // Each cleanup action runs even when another one fails.
-        try { if (_started && !_commands.ProcessCommand("/bmrai off")) throw new InvalidOperationException("Could not stop Reborn AI."); }
+        // Reborn's '/bmrai off' ALSO clears the current rotation preset. Do not send it
+        // after the user has replaced our preset with their own.
+        try { if (_started && OwnsPreset(_active.InvokeFunc()) && !_commands.ProcessCommand("/bmrai off")) throw new InvalidOperationException("Could not stop Reborn AI."); }
         catch (Exception e) { failures.Add(e); }
         try { ClearActivePresets(); }
         catch (Exception e) { failures.Add(e); }
@@ -136,6 +137,9 @@ internal sealed class RebornBossModBackend : IDisposable
             throw new AggregateException("Reborn cleanup failed; stop questing and inspect Reborn.", failures);
         _started = false;
     }
+
+    private bool OwnsPreset(string? name) => RebornSession.IsIntegrationPreset(name)
+        || (name != null && _ownedPresets.Contains(name));
 
     private bool ReadSetting(string node, string field)
     {

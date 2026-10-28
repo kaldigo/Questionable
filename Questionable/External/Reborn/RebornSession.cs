@@ -61,6 +61,9 @@ internal sealed class RebornSession(Func<string, string, bool> read, Action<stri
 
     public static string PresetName(string upstreamName) => upstreamName + " [Reborn]";
 
+    public static bool IsIntegrationPreset(string? name) => name is "Questionable [Reborn]"
+        or "Questionable - Quest Battles [Reborn]" or "Questionable - Normal Movement [Reborn]";
+
     public static string PreparePreset(string upstreamJson)
     {
         JsonObject preset = JsonNode.Parse(upstreamJson)?.AsObject()
